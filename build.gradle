@@ -6,17 +6,30 @@ plugins {
 
 group = 'devops.kilroywashere'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+//sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:1.4.2.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.7'
+    implementation 'org.springframework.boot:spring-boot-starter-test:1.4.2.RELEASE'
+
+    // Tests
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    implementation('org.assertj:assertj-core:3.22.0')
+    //implementation('org.mockito:mockito-core:1.10.19')
+
     runtimeOnly 'mysql:mysql-connector-java'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // Tests
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+            {
+                exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+            }
 }
 
 tasks.named('test') {

@@ -8,13 +8,13 @@ import javax.validation.constraints.NotNull;
 public interface HabitationsService {
     Iterable<Habitation> findAllHabitations();
 
-    Habitation findHabitationById(@NotNull Long id);
+    Habitation findHabitationById(@NotNull Integer id);
 
     Habitation addHabitation(@NotNull Habitation habitation);
 
     Habitation updateHabitation(@NotNull Habitation habitation)
             throws HabitationException;
 
-    void deleteHabitation(@NotNull Long id)
+    void deleteHabitation(@NotNull Integer id)
             throws HabitationException;
 }

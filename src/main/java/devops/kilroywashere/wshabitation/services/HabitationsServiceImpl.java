@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import javax.validation.constraints.NotNull;
 
 @Service
-public class HabitationsService {
+public class HabitationsServiceImpl implements HabitationsService {
     private final HabitationsRepository repository;
 
     // DI par Spring Boot
-    public HabitationsService(HabitationsRepository repository) {
+    public HabitationsServiceImpl(HabitationsRepository repository) {
         this.repository = repository;
     }
 
@@ -22,6 +22,7 @@ public class HabitationsService {
      *
      * @return Une liste d'objet Habitation
      */
+    @Override
     public Iterable<Habitation> findAllHabitations() {
         return repository.findAll();
     }
@@ -32,7 +33,8 @@ public class HabitationsService {
      * @return Un objet Optional contenant l'objet Habitation correspondant à l'id ou
      *         un objet Optional vide
      */
-    public Habitation findHabitationById(@NotNull Long id) {
+    @Override
+    public Habitation findHabitationById(@NotNull Integer id) {
         return repository.findById(id).orElse(null);
     }
 
@@ -43,6 +45,7 @@ public class HabitationsService {
      *
      * @see Habitation
      */
+    @Override
     public Habitation addHabitation(@NotNull Habitation habitation) {
         return repository.save(habitation);
     }
@@ -52,6 +55,7 @@ public class HabitationsService {
      * @param habitation Objet Habitation contenant les informations mises à jour
      * @return L'objet Habitation modifié ou null en cas d'erreur
      */
+    @Override
     public Habitation updateHabitation(@NotNull Habitation habitation)
         throws HabitationException {
         // Recherche de l'habitation
@@ -75,7 +79,8 @@ public class HabitationsService {
      *
      * @param id Id de l’habitation
      */
-    public void eleteHabitation(@NotNull Long id)
+    @Override
+    public void deleteHabitation(@NotNull Integer id)
             throws HabitationException {
         // Recherche de l'habitation
         Habitation habitation = findHabitationById(id);
