@@ -18,7 +18,7 @@ import devops.kilroywashere.wshabitation.services.HabitationsService;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class HabitationsController {
     private final HabitationsService service;
 
@@ -39,7 +39,6 @@ public class HabitationsController {
      */
     @GetMapping("/habitations")
     public Iterable<Habitation> getHabitations() {
-        logger.info("getHabitations");
         return service.findAllHabitations();
     }
 
@@ -65,6 +64,7 @@ public class HabitationsController {
     }
 
     /** Ajoute une habitation
+     * @implNote Les items et les options ne sont pas enregistrés par cette API
      *
      * @param habitation Objet Habitation contenant les informations à ajouter
      * @return Le status HTTP 201: Created avec l'url de la ressource créée si tout est ok

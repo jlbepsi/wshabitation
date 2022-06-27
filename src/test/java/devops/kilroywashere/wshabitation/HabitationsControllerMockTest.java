@@ -65,7 +65,7 @@ public class HabitationsControllerMockTest {
                 .willReturn(Lists.newArrayList(habitation1, habitation2));
 
         // WHEN and THEN
-        this.mockMvc.perform(get("/api/habitations"))
+        this.mockMvc.perform(get("/api/v1/habitations"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -81,7 +81,7 @@ public class HabitationsControllerMockTest {
                 .willReturn(habitation1);
 
         // WHEN and THEN
-        this.mockMvc.perform(get("/api/habitations/1"))
+        this.mockMvc.perform(get("/api/v1/habitations/1"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$", notNullValue()))
@@ -93,7 +93,7 @@ public class HabitationsControllerMockTest {
     @DisplayName("Test GET none habitation")
     @Test
     public void getOneUnknown_shouldReturnNotFound() throws Exception {
-        this.mockMvc.perform(get("/api/habitations/5"))
+        this.mockMvc.perform(get("/api/v1/habitations/5"))
                 .andExpect(status().isNotFound());
     }
 
@@ -108,7 +108,7 @@ public class HabitationsControllerMockTest {
 
         // WHEN and THEN
         this.mockMvc.perform(
-                post("/api/habitations")
+                post("/api/v1/habitations")
                         .content(json)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -127,7 +127,7 @@ public class HabitationsControllerMockTest {
 
         // WHEN and THEN
         this.mockMvc.perform(
-                put("/api/habitations/1")
+                put("/api/v1/habitations/1")
                         .content(json)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -148,7 +148,7 @@ public class HabitationsControllerMockTest {
 
         // WHEN and THEN
         this.mockMvc.perform(
-                put("/api/habitations/1")
+                put("/api/v1/habitations/1")
                         .content(json)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -166,7 +166,7 @@ public class HabitationsControllerMockTest {
 
         // WHEN and THEN
         this.mockMvc.perform(
-                        put("/api/habitations/1")
+                        put("/api/v1/habitations/1")
                                 .content(json)
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -180,7 +180,7 @@ public class HabitationsControllerMockTest {
         doNothing().when(service).deleteHabitation(isA(Integer.class));
 
         // WHEN and THEN
-        this.mockMvc.perform(delete("/api/habitations/1"))
+        this.mockMvc.perform(delete("/api/v1/habitations/1"))
                 .andExpect(status().isNoContent());
     }
 
@@ -191,7 +191,7 @@ public class HabitationsControllerMockTest {
         doThrow(new HabitationNotFoundException()).when(service).deleteHabitation(isA(Integer.class));
 
         // WHEN and THEN
-        this.mockMvc.perform(delete("/api/habitations/1"))
+        this.mockMvc.perform(delete("/api/v1/habitations/1"))
                 .andExpect(status().isNotFound());
     }
 
@@ -202,7 +202,7 @@ public class HabitationsControllerMockTest {
         doThrow(new HabitationException()).when(service).deleteHabitation(isA(Integer.class));
 
         // WHEN and THEN
-        this.mockMvc.perform(delete("/api/habitations/1"))
+        this.mockMvc.perform(delete("/api/v1/habitations/1"))
                 .andExpect(status().isBadRequest());
     }
 }

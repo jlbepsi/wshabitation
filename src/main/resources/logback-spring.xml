@@ -32,9 +32,9 @@
         </rollingPolicy>
     </appender>
 
-    <!-- LOG everything at INFO level -->
+    <!-- LOG everything at INFO level
+        <appender-ref ref="RollingFile" />-->
     <root level="info">
-        <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </root>
 
@@ -42,9 +42,9 @@
         <appender-ref ref="Console" />
     </logger>
 
-    <!-- LOG "devops.kilroywashere.wshabitation*" at TRACE level -->
+    <!-- LOG "devops.kilroywashere.wshabitation*" at TRACE level
+        <appender-ref ref="RollingFile" />-->
     <logger name="devops.kilroywashere.wshabitation" level="trace" additivity="false">
-        <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </logger>
 
