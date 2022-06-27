@@ -1,0 +1,49 @@
+variables:
+    IMG_JDK_GRADLE: gradle:jdk17-alpine
+
+stages:          # List of stages for jobs, and their order of execution
+    - clean
+    - build
+    - test
+#   - deploy
+
+clean-job:
+    stage: clean
+    image: $IMG_JDK_GRADLE
+    script:
+        - echo "Cleaning from previous builds"
+        - sh $CI_PROJECT_DIR/gradelw clean
+
+build-job:
+    stage: build
+    image: $IMG_JDK_GRADLE
+    script:
+        - echo "Compiling the code..."
+        - echo "Compile complete."
+
+static-code-analysis:
+    image: $IMAGE_OPENJDK_GRADLE
+    stage: test
+    script:
+        - echo "Running Static Code Analysis..."
+        - echo "Checking style..."
+        - sh $CI_PROJECT_DIR/gradlew checkstyleMain
+        - echo "Checking duplicated code..."
+        - sh $CI_PROJECT_DIR/gradlew cpdCheck
+        - echo "Checking bugs..."
+        - sh $CI_PROJECT_DIR/gradlew spotbugsMain
+        - echo "Checking code standard..."
+        - sh $CI_PROJECT_DIR/gradlew pmdMain
+
+unit-test-job:
+    image: $IMAGE_OPENJDK_GRADLE
+    stage: test
+    script:
+        - echo "Running unit tests..."
+        - sh $CI_PROJECT_DIR/gradlew test -Dspring.profiles.active=test
+
+#deploy-job:      # This job runs in the deploy stage.
+#  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+#  script:
+#    - echo "Deploying application..."
+#    - echo "Application successfully deployed."
