@@ -5,16 +5,17 @@ stages:          # List of stages for jobs, and their order of execution
     - clean
     - build
     - test
+    - quality
 #   - deploy
 
-clean-job:
+clean_job:
     stage: clean
     image: $IMG_JDK_GRADLE
     script:
         - echo "Cleaning from previous builds"
         - gradle clean
 
-build-job:
+build_job:
     stage: build
     image: $IMG_JDK_GRADLE
     script:
@@ -23,26 +24,30 @@ build-job:
         paths:
             - build/libs/*.jar
 
-static-code-analysis:
-    image: $IMAGE_OPENJDK_GRADLE
-    stage: test
-    script:
-        - echo "Running Static Code Analysis..."
-        - echo "Checking style..."
-        - sh $CI_PROJECT_DIR/gradlew checkstyleMain
-        - echo "Checking duplicated code..."
-        - sh $CI_PROJECT_DIR/gradlew cpdCheck
-        - echo "Checking bugs..."
-        - sh $CI_PROJECT_DIR/gradlew spotbugsMain
-        - echo "Checking code standard..."
-        - sh $CI_PROJECT_DIR/gradlew pmdMain
-
-unit-test-job:
+unit_test_job:
     image: $IMAGE_OPENJDK_GRADLE
     stage: test
     script:
         - echo "Running unit tests..."
         - gradle test -Dspring.profiles.active=test
+
+code_quality_job:
+    stage: quality
+    image: docker:stable
+    allow_failure: true
+    services:
+        - docker:stable-dind
+    script:
+        - mkdir codequality-results
+        - docker runs
+            --env CODECLIMATE_CODE="$PWD"
+            --volume "$PWD":/code
+            --volume /var/run/docker.sock:/var/run/docker.sock
+            --volume /tmp/cc:/tmp/cc
+            codeclimate/codeclimate analyze -f html > ./codequality-results/index.html
+    artifacts:
+        paths:
+            - codequality-results/
 
 #deploy-job:      # This job runs in the deploy stage.
 #  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
