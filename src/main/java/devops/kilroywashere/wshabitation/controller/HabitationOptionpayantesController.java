@@ -35,7 +35,7 @@ public class HabitationOptionpayantesController {
         this.habitationOptionService = habitationOptionService;
     }
 
-    @PostMapping("/habitationitems")
+    @PostMapping("/habitationoptions")
     public ResponseEntity<Void> addHabitationOptions(@Validated @RequestBody HabitationOptionsDTO optionsDTO) {
         Habitation habitation = null;
         try {
