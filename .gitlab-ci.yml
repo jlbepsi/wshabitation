@@ -39,7 +39,7 @@ code_quality_job:
         - docker:stable-dind
     script:
         - mkdir codequality-results
-        - docker runs
+        - docker run
             --env CODECLIMATE_CODE="$PWD"
             --volume "$PWD":/code
             --volume /var/run/docker.sock:/var/run/docker.sock
