@@ -9,7 +9,6 @@ import java.util.Objects;
 
 @Embeddable
 public class HabitationItemId implements Serializable {
-    private static final long serialVersionUID = -1671153414346910427L;
     @Column(name = "habitation_id", nullable = false)
     private Integer habitationId;
 
