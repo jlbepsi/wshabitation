@@ -1,0 +1,7 @@
+https://docs.spring.io/spring-boot/docs/1.4.2.RELEASE/reference/html/boot-features-testing.html
+https://www.baeldung.com/spring-boot-testing
+
+
+https://reflectoring.io/spring-boot-data-jpa-test/
+https://howtodoinjava.com/spring-boot2/testing/datajpatest-annotation/
+https://zetcode.com/springboot/testentitymanager/
