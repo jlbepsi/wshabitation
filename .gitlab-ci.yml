@@ -61,8 +61,7 @@ sonarcloud-check:
             - .sonar/cache
     script: gradle sonarqube
     only:
-        - merge_requests
-        - master
+        - main
         - develop
 
 
