@@ -33,7 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(value = HabitationsController.class)
-@TestPropertySource(locations = "/integrationtest.properties")
 public class HabitationsControllerMockTest {
     static Typehabitat typehabitatMaison, typehabitatAppartement;
     static Habitation habitation1, habitation2;
