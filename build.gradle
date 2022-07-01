@@ -2,11 +2,14 @@ plugins {
     id 'org.springframework.boot' version '2.7.0'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id "org.sonarqube" version "3.4.0.2513"
+    id "com.palantir.docker" version("0.34.0")
+    id "com.palantir.docker-run" version("0.34.0")
     id 'java'
 }
 
 group = 'devops.kilroywashere'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
+// version = '0.0.1-SNAPSHOT'
 //sourceCompatibility = '17'
 
 repositories {
@@ -38,6 +41,30 @@ dependencies {
             {
                 exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
             }
+}
+
+// Dockerfile
+docker {
+    dependsOn(build)
+    // bootJar.baseName resolves to the artifact name, without version and extension information
+    name "${rootProject.name }:${version}"
+    tag("current", "${rootProject.name }:${version}")
+    tag("latest", "${rootProject.name }:latest")
+
+    dockerfile file('docker/DockerfileGradle')
+
+    // bootJar.archivePath resolves to the absolute path of the artifact file
+    files bootJar.archiveFile, "src/main/resources/application.properties",
+            "src/main/resources/logback-spring.xml"
+    // bootJar.archiveName resolves to the artifact name, including version and extension
+    buildArgs(['JAR_FILE': "${bootJar.archiveFileName.get()}"])
+}
+
+dockerRun {
+    name "${rootProject.name }"
+    image "${rootProject.name }:${version}"
+    ports "8011:8080"
+    clean true
 }
 
 tasks.named('test') {
