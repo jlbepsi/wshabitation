@@ -53,10 +53,8 @@ docker {
 
     dockerfile file('docker/DockerfileGradle')
 
-    // bootJar.archivePath resolves to the absolute path of the artifact file
     files bootJar.archiveFile, "src/main/resources/application.properties",
             "src/main/resources/logback-spring.xml"
-    // bootJar.archiveName resolves to the artifact name, including version and extension
     buildArgs(['JAR_FILE': "${bootJar.archiveFileName.get()}"])
 }
 

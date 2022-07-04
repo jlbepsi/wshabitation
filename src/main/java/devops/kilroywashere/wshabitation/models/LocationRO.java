@@ -3,8 +3,8 @@ package devops.kilroywashere.wshabitation.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "location")
-public class Location {
+@Table(name = "locationro")
+public class LocationRO {
     @Id
     @Column(name = "id", nullable = false)
     private Integer id;

@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+
+  database:
+    image: mariadb:10.8
+    container_name: rhhmariadb
+    hostname: mariadb
+    env_file: ./docker/mariadb/.env
+    ports:
+      - 3311:3306
+    volumes:
+      - ./database/rhhabitation.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - wsh-network
+
+  wshabitation:
+    build: .
+    container_name: wshabitation
+    ports:
+      - 8011:8080
+    networks:
+      - wsh-network
+
+networks:
+  wsh-network:
+    driver: bridge
