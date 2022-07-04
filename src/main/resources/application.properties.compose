@@ -1,0 +1,13 @@
+## Spring DataSource, serverTimezone=UTC evite les problemes de temps cote Serveur
+spring.datasource.url=jdbc:mysql://mysql_rhloc:3306/rhhabitation?useSSL=false&serverTimezone=UTC
+spring.datasource.username=adminrh
+spring.datasource.password=abcd4ABCD
+# The SQL dialect makes Hibernate generate better SQL for the chosen database
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+# Hibernate ddl auto (none, update, create, create-drop)
+spring.jpa.hibernate.ddl-auto=none
+# Hibernate ne s'occupe pas de la generation de la cle primaire auto incrementee
+# La base de donnee (ici MySQL) fait le "job"
+spring.jpa.properties.hibernate.id.new_generator_mappings=false
+
+spring.jpa.properties.hibernate.show_sql=true

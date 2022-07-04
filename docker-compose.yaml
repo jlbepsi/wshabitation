@@ -2,23 +2,27 @@ version: '3.9'
 
 services:
 
-  database:
-    image: mariadb:10.8
+  mysql_rhloc:
+    image: mariadb:10.7
     container_name: rhhmariadb
     hostname: mariadb
     env_file: ./docker/mariadb/.env
     ports:
-      - 3311:3306
+      - "3311:3306"
     volumes:
       - ./database/rhhabitation.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - wsh-network
 
   wshabitation:
-    build: .
+    build:
+      context: .
+      dockerfile: DockerfileForCompose
     container_name: wshabitation
     ports:
-      - 8011:8080
+      - "8011:8080"
+    volumes:
+      - ./logs:/logs
     networks:
       - wsh-network
 
