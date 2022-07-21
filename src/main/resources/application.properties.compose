@@ -1,5 +1,5 @@
 ## Spring DataSource, serverTimezone=UTC evite les problemes de temps cote Serveur
-spring.datasource.url=jdbc:mysql://mysql_rhloc:3306/rhhabitation?useSSL=false&serverTimezone=UTC
+spring.datasource.url=jdbc:mysql://mysql_rhhab:3306/rhhabitation?useSSL=false&serverTimezone=UTC
 spring.datasource.username=adminrh
 spring.datasource.password=abcd4ABCD
 # The SQL dialect makes Hibernate generate better SQL for the chosen database

@@ -3,8 +3,30 @@ package devops.kilroywashere.wshabitation.models;
 import java.util.List;
 
 public class HabitationOptionsDTO {
+
+    public static class HabitationOptionPrixDTO  {
+        private int optionId;
+        private Double prix;
+
+        public int getOptionId() {
+            return optionId;
+        }
+
+        public void setOptionId(int optionId) {
+            this.optionId = optionId;
+        }
+
+        public Double getPrix() {
+            return prix;
+        }
+
+        public void setPrix(Double prix) {
+            this.prix = prix;
+        }
+    }
+
     private int habitationId;
-    private List<Integer> optionIds;
+    private List<HabitationOptionPrixDTO> optionIdPrixs;
 
     public int getHabitationId() {
         return habitationId;
@@ -13,10 +35,11 @@ public class HabitationOptionsDTO {
         this.habitationId = habitationId;
     }
 
-    public List<Integer> getOptionIds() {
-        return optionIds;
+    public List<HabitationOptionPrixDTO> getOptionIdPrixs() {
+        return optionIdPrixs;
     }
-    public void setOptionIds(List<Integer> optionIds) {
-        this.optionIds = optionIds;
+
+    public void setOptionIdPrixs(List<HabitationOptionPrixDTO> optionIdPrixs) {
+        this.optionIdPrixs = optionIdPrixs;
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HabitationOptionsServiceImpl implements HabitationOptionService {
@@ -22,27 +23,40 @@ public class HabitationOptionsServiceImpl implements HabitationOptionService {
         this.itemsRepository = itemsRepository;
     }
 
+    /**
+     * Retourne toutes les habitations
+     *
+     * @return Une liste d'objet Habitation
+     */
     @Override
-    public void addAllHabitationOptionIds(Habitation habitation, List<Integer> optionsIds) {
-        // Recherche des items
-        List<Optionpayante> optionpayantes = (List<Optionpayante>) itemsRepository.findAllById(optionsIds);
+    public Iterable<HabitationOptionpayante> findAllHabitationOptionsPayantes() {
+        return habitationOptionsRepository.findAll();
+    }
 
+    @Override
+    public Iterable<HabitationOptionpayante> findAllHabitationOptionsPayantesByHabitation(int id) {
+        return habitationOptionsRepository.findHabitationOptionpayantesByHabitation_Id(id);
+    }
+
+    @Override
+    public void addAllHabitationOptionIds(Habitation habitation, List<HabitationOptionsDTO.HabitationOptionPrixDTO> optionsIdPrix) {
+        // Liste des items et prix
         List<HabitationOptionpayante> habitationOptions = new ArrayList<>();
-        for (int id : optionsIds) {
-            HabitationOptionpayanteId optionId = new HabitationOptionpayanteId();
-            optionId.setHabitationId(habitation.getId());
-            optionId.setOptionpayanteId(id);
+        for (HabitationOptionsDTO.HabitationOptionPrixDTO idPrix : optionsIdPrix) {
+            // Recherche de l'option
+            Optional<Optionpayante> optionpayante = itemsRepository.findById(idPrix.getOptionId());
+            if (optionpayante.isPresent()) {
+                HabitationOptionpayanteId optionId = new HabitationOptionpayanteId();
+                optionId.setHabitationId(habitation.getId());
+                optionId.setOptionpayanteId(idPrix.getOptionId());
 
-            HabitationOptionpayante habitationOptionpayante = new HabitationOptionpayante();
-            habitationOptionpayante.setId(optionId);
-            habitationOptionpayante.setHabitation(habitation);
-            habitationOptionpayante.setOptionpayante(
-                    optionpayantes.stream()
-                            .filter(i -> i.getId() == id)
-                            .findFirst()
-                            .orElse(null)
-            );
-            habitationOptions.add(habitationOptionpayante);
+                HabitationOptionpayante habitationOptionpayante = new HabitationOptionpayante();
+                habitationOptionpayante.setId(optionId);
+                habitationOptionpayante.setHabitation(habitation);
+                habitationOptionpayante.setOptionpayante(optionpayante.get());
+                habitationOptionpayante.setPrix(idPrix.getPrix());
+                habitationOptions.add(habitationOptionpayante);
+            }
         }
 
         habitationOptionsRepository.saveAll(habitationOptions);

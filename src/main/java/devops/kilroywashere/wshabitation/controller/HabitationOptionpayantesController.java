@@ -1,6 +1,7 @@
 package devops.kilroywashere.wshabitation.controller;
 
 import devops.kilroywashere.wshabitation.models.Habitation;
+import devops.kilroywashere.wshabitation.models.HabitationOptionpayante;
 import devops.kilroywashere.wshabitation.models.HabitationOptionsDTO;
 import devops.kilroywashere.wshabitation.services.HabitationOptionService;
 import devops.kilroywashere.wshabitation.services.HabitationsService;
@@ -9,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -35,7 +33,12 @@ public class HabitationOptionpayantesController {
         this.habitationOptionService = habitationOptionService;
     }
 
-    @PostMapping("/habitationoptions")
+    @GetMapping("/habitationoptionpayantes/habitation/{id}")
+    public Iterable<HabitationOptionpayante> getByHabitationId(@PathVariable(name = "id") int id) {
+        return habitationOptionService.findAllHabitationOptionsPayantesByHabitation(id);
+    }
+
+    @PostMapping("/habitationoptionpayantes")
     public ResponseEntity<Void> addHabitationOptions(@Validated @RequestBody HabitationOptionsDTO optionsDTO) {
         Habitation habitation = null;
         try {
@@ -50,7 +53,7 @@ public class HabitationOptionpayantesController {
         }
 
         try {
-            habitationOptionService.addAllHabitationOptionIds(habitation, optionsDTO.getOptionIds());
+            habitationOptionService.addAllHabitationOptionIds(habitation, optionsDTO.getOptionIdPrixs());
 
             return ResponseEntity.noContent().build();
         } catch (Exception exception) {

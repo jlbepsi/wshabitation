@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
 
-  mysql_rhloc:
+  mysql_rhhab:
     image: mariadb:10.7
     container_name: rhhmariadb
     hostname: mariadb

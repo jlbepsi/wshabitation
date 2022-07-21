@@ -1,5 +1,9 @@
 package devops.kilroywashere.wshabitation.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -8,6 +12,15 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+/*
+Json Infinite loop : https://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion
+Option 1
+
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
+ */
 @Entity
 public class Habitation {
     @Id
@@ -30,15 +43,13 @@ public class Habitation {
     )
     private Set<Item> items = new HashSet<>();
 
-    @ManyToMany()
-    @JoinTable(
-            name = "habitation_optionpayante",
-            joinColumns = { @JoinColumn(name = "habitation_id",
-                                        referencedColumnName = "id") },
-            inverseJoinColumns = { @JoinColumn(name = "optionpayante_id",
-                                        referencedColumnName = "id")}
-    )
-    private Set<Optionpayante> optionpayantes = new HashSet<>();
+    /*
+        Json Infinite loop
+        Version 2
+     */
+    @JsonManagedReference
+    @OneToMany(mappedBy = "habitation")
+    private Set<HabitationOptionpayante> optionpayantes = new HashSet<>();
 
     @NotBlank(message = "Le libellé doit être renseigné")
     private String libelle;
@@ -110,11 +121,11 @@ public class Habitation {
         this.items = items;
     }
 
-    public Set<Optionpayante> getOptionpayantes() {
+    public Set<HabitationOptionpayante> getOptionpayantes() {
         return optionpayantes;
     }
 
-    public void setOptionpayantes(Set<Optionpayante> optionpayantes) {
+    public void setOptionpayantes(Set<HabitationOptionpayante> optionpayantes) {
         this.optionpayantes = optionpayantes;
     }
 
