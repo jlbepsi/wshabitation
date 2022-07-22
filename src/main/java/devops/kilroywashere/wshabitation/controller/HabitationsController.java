@@ -50,7 +50,7 @@ public class HabitationsController {
      *         Le status HTTP NOT_FOUND si l'habitation n'existe pas
      */
     @GetMapping("/habitations/{id}")
-    public Habitation getHabitations(@PathVariable(value = "id") Integer id) {
+    public Habitation getHabitation(@PathVariable(value = "id") Integer id) {
         Habitation habitation = service.findHabitationById(id);
 
         if (habitation == null) {
